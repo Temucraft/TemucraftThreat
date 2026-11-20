@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: Temucraft Threat
+## Notes: Threat bars for your group on your target, with a warning before you pull. /tthreat
+## Author: Temucraft
+## Version: 1.0.0
+## SavedVariables: TemucraftThreatDB
+
+TemucraftThreat.lua
