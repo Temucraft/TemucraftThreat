@@ -65,6 +65,8 @@ local function addUnit(unit, mob)
 	list[#list + 1] = e
 end
 
+local function byValue(a, b) return a.value > b.value end
+
 local function collect(mob)
 	for _, e in ipairs(list) do pool[#pool + 1] = e end
 	wipe(list)
@@ -82,7 +84,7 @@ local function collect(mob)
 			if db.showPets then addUnit("partypet" .. i, mob) end
 		end
 	end
-	sort(list, function(a, b) return a.value > b.value end)
+	sort(list, byValue)
 end
 
 local function tankValue()
@@ -110,7 +112,9 @@ local function shouldShow(mob)
 	return mob ~= nil
 end
 
+local lastRender = 0
 local function render()
+	lastRender = GetTime()
 	local mob = threatTarget()
 	if not frame.preview and not shouldShow(mob) then
 		frame:Hide()
@@ -290,6 +294,11 @@ events:SetScript("OnEvent", function(self, event, name)
 		end
 	elseif db then
 		if event == "PLAYER_REGEN_ENABLED" then warned = false end
+		-- threat updates come once per unit, dozens a second in a raid: while the window is shown the 0.25 s
+		-- OnUpdate draws them; while it is hidden they show it at most every 0.25 s
+		if event == "UNIT_THREAT_LIST_UPDATE" or event == "UNIT_THREAT_SITUATION_UPDATE" then
+			if frame:IsShown() or GetTime() - lastRender < 0.25 then return end
+		end
 		render()
 	end
 end)

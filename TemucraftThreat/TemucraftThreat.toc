@@ -2,7 +2,7 @@
 ## Title: Temucraft Threat
 ## Notes: Threat bars for your group on your target, with a warning before you pull. /tthreat
 ## Author: Temucraft
-## Version: 1.0.0
+## Version: 1.0.1
 ## SavedVariables: TemucraftThreatDB
 
 TemucraftThreat.lua
